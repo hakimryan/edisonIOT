@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Real-time updates</title>
+	<link href="../examples.css" rel="stylesheet" type="text/css">
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="../../jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="../../jquery.flot.js"></script>
+	<script type="text/javascript">
+ 
+	$(function() {
+ 
+		// We use an inline data source in the example, usually data would
+		// be fetched from a server
+ 
+		var data = [[0,2],[1,4],[2,4],[3,2],[4,5],[5,7]],
+			totalPoints = 30,
+			x = 0;
+		var updateInterval = 3000;
+ 
+		// function getRandomData() {
+ 
+		// 	if (data.length > 0)
+		// 		data = data.slice(1);
+ 
+		// 	// Create sinus function
+ 
+		// 	while (data.length < totalPoints) {
+		// 		var y = Math.sin(x);
+		// 		data.push(y);
+		// 	}
+		// 	x = x + 0.1;
+ 
+		// 	// Zip the generated y values with the x values
+ 
+		// 	var res = [];
+		// 	for (var i = 0; i < data.length; ++i) {
+		// 		res.push([i, data[i]])
+		// 	}
+ 			
+ 	// 		console.log(res);
+		// 	return res;
+		// }
+ 
+ 
+		var plot = $.plot("#placeholder", [data], {
+			series: {
+				shadowSize: 0	// Drawing is faster without shadows
+			},
+			yaxis: {
+				min: -1,
+				max: 10
+			},
+			xaxis: {
+				show: false
+			}
+		});
+ 
+		function update() {
+ 
+		plot.setData([data]);
+ 
+			// Since the axes don't change, we don't need to call plot.setupGrid()
+ 
+			plot.draw();
+			setTimeout(update, updateInterval);
+		}
+ 
+		update();
+ 
+	});
+ 
+	</script>
+</head>
+<body>
+ 
+	<div id="content">
+ 
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+ 
+	</div>
+ 
+</body>
+</html>
